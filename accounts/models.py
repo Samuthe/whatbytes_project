@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 
+"""@package docstring
+This module contains the CustomUser model, fields and methods to create a custom User model in Django."""
 class CustomUser(AbstractUser):
     image = models.ImageField(upload_to='profile_pics', default='default.jpg')
     age = models.PositiveIntegerField(null=True, blank=True)
@@ -13,6 +15,7 @@ class CustomUser(AbstractUser):
     linkedin = models.URLField(null=True, blank=True)
     youtube = models.URLField(null=True, blank=True)
 
+    """CustomUser model fields and methods. Inherits from AbstractUser model."""
     groups = models.ManyToManyField(
         Group,
         related_name="customuser_groups",
