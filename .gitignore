@@ -1,0 +1,7 @@
+__pycache__
+.vscode
+venv
+.env
+migration
+db.sqlite3
+# .gitignore
