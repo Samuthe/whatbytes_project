@@ -23,6 +23,7 @@ class CustomUser(AbstractUser):
         related_name="customuser_groups",
         blank=True
     )
+    """The user_permissions field is a ManyToManyField that relates to the Permission model provided by Django."""
     user_permissions = models.ManyToManyField(
         Permission,
         related_name="customuser_permissions",
