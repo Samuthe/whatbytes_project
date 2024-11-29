@@ -45,7 +45,7 @@
         </div>
     </header>
 
-    <main class="text-gray-900">
+    <main class="text-gray-900 top-5">
         <section class="pt-20 md:pt-40">
         <div class="container mx-auto px-8 lg:flex">
             <div class="text-center lg:text-left lg:w-1/2">
@@ -56,13 +56,14 @@
                 Free landing page template to promote your business startup and
                 generate leads for the offered services
             </p>
-            <p class="mt-8 md:mt-12">
-                <button
-                type="button"
-                class="py-4 px-12 bg-blue-500 hover:bg-blue-600 rounded text-white"
+            <p class="mt-8 md:mt-12 z-30">
+                <a
+                    href="{% url 'register' %}"
+                    aria-label="Get Started"
+                    class="py-4 px-12 bg-blue-500 hover:bg-blue-600 rounded text-white"
                 >
-                Get Started
-                </button>
+                    Get Started
+                </a>
             </p>
             <p class="mt-4 text-gray-600">Sed fermentum felis ut cursu</p>
             </div>
@@ -1777,12 +1778,13 @@
             fermentum dui faucibus in.
         </p>
         <p class="mt-8">
-            <button
-            type="button"
-            class="py-5 px-16 text-lg bg-blue-500 hover:bg-blue-600 rounded text-white"
+            <a
+                href="{% url 'register' %}"
+                aria-label="Get Started Now"
+                class="z-30 py-5 px-16 text-lg bg-blue-500 hover:bg-blue-600 rounded text-white"
             >
-            Get Started Now
-            </button>
+                Get Started Now
+            </a>
         </p>
         </section>
     </main>

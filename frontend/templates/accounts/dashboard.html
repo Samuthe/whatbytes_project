@@ -10,5 +10,13 @@
             <p>Welcome {{ request.user.username }} to your dashboard</p>
             <p>Here you can view your profile, update your profile, view your orders and more</p>
         </div>
+        <div class="space-y-6 border-t border-gray-200 px-4 py-6">
+            <div class="flow-root">
+                <form method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="-m-2 block p-2 font-medium text-gray-900" id="closeMenuButton" role="menuitem">Sign out</button>
+                </form>
+            </div>
+        </div>
     </div>
 {% endblock %}
