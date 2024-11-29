@@ -271,7 +271,7 @@ def change_password_view(request):
             user = form.save()
             update_session_auth_hash(request, user)
             messages.success(request, 'Your password has been changed successfully.')
-            return redirect('settings')
+            return redirect('profile')
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
