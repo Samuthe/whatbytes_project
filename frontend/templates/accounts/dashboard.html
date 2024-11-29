@@ -1,0 +1,12 @@
+{% extends '../base.html' %} {% load static %}
+{% block title %}Dashboard | Welcome {{ request.user.username}} to your dashboard{% endblock %}
+{% block content %}
+    <div
+        class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6"
+    >
+        <div class="sm:mx-auto sm:w-full sm:max-w-md">
+            <p>Welcome {{ request.user.username }} to your dashboard</p>
+            <p>Here you can view your profile, update your profile, view your orders and more</p>
+        </div>
+    </div>
+{% endblock %}

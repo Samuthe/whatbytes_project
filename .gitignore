@@ -2,6 +2,6 @@ __pycache__
 .vscode
 venv
 .env
-migration
+migrations
 db.sqlite3
 # .gitignore
