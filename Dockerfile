@@ -42,7 +42,7 @@ RUN python manage.py collectstatic
 
 EXPOSE 8000
 
-ENV DJANGO_SETTINGS_MODULE=accounts.settings
+ENV DJANGO_SETTINGS_MODULE=whatbytes_project.settings
 ENV PYTHONUNBUFFERED=1
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "accounts.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "whatbytes_project.wsgi:application"]
