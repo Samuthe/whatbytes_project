@@ -1,4 +1,6 @@
-{% extends '../base.html' %} {% load static %}
+{% extends '../base.html' %} 
+{% load static %}
+{% csrf_token %}
 {% block title %}Dashboard | Welcome {{ request.user.username}} to your dashboard{% endblock %}
 {% block content %}
     <div
