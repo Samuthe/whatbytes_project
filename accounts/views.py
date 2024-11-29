@@ -13,8 +13,16 @@ from django.core.cache import cache
 import os
 from django.utils import timezone
 from .models import CustomUser
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.urls import reverse
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 
 logger = logging.getLogger(__name__)
+
+token_generator = PasswordResetTokenGenerator()
 
 MAX_OTP_REQUESTS = 5
 OTP_REQUEST_TIME_WINDOW = 3600 
@@ -175,7 +183,7 @@ def verify_otp(request):
                 messages.success(request, 'Login successful.')
                 expiry_time = timezone.now() + timedelta(minutes=30)
                 request.session['expiry_time'] = expiry_time.isoformat()
-                request.session['password'] = '' # Clear password from session
+                del request.session['password']
                 request.session.modified = True
                 return redirect('dashboard')
             else:
@@ -190,8 +198,83 @@ def dashboard_views(request):
     return render(request, 'accounts/dashboard.html')
 
 @login_required
+def profile_views(request):
+    return render(request, 'accounts/profile.html')
+
+@login_required
 @require_POST
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logged out successfully.', extra_tags='success')
     return redirect('login')
+
+def forgot_password_view(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            messages.error(request, 'No account found with this email.')
+            return redirect('forgot_password')
+
+        token = token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        reset_url = request.build_absolute_uri(
+            reverse('reset_password', args=[uid, token])
+        )
+
+        send_mail(
+            'Password Reset Request',
+            f'Click the link to reset your password: {reset_url}',
+            os.getenv('EMAIL_HOST_USER'),
+            [email],
+            fail_silently=False,
+        )
+        messages.success(request, 'A password reset link has been sent to your email.')
+        return redirect('login')
+
+    return render(request, 'accounts/forgot_password.html')
+
+
+def reset_password_view(request, uidb64, token):
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+        messages.error(request, 'Invalid password reset link.')
+        return redirect('forgot_password')
+
+    if not token_generator.check_token(user, token):
+        messages.error(request, 'This password reset link has expired or is invalid.')
+        return redirect('forgot_password')
+
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 != password2:
+            messages.error(request, 'Passwords do not match.')
+            return render(request, 'accounts/reset_password.html', {'validlink': True})
+
+        user.set_password(password1)
+        user.save()
+        messages.success(request, 'Your password has been reset successfully. Please log in.')
+        return redirect('login')
+
+    return render(request, 'accounts/reset_password.html', {'validlink': True})
+
+@login_required
+def change_password_view(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password has been changed successfully.')
+            return redirect('settings')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'accounts/change_password.html', {'form': form})

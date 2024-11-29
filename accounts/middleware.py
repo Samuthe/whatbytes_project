@@ -1,5 +1,3 @@
-# accounts/middleware.py
-
 from datetime import datetime
 from django.utils import timezone
 from django.shortcuts import redirect
@@ -17,6 +15,7 @@ class SessionExpiryMiddleware:
 
             if timezone.now() > session_expiry:
                 messages.error(request, "Your session has expired. Please log in again.")
+                del request.session['expiry_time']
                 return redirect('login')
 
         response = self.get_response(request)
