@@ -34,6 +34,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'whatbytes_project.urls'
 TAILWIND_APP_NAME = 'frontend'
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 TEMPLATES = [
     {
