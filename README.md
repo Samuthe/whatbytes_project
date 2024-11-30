@@ -20,13 +20,15 @@ Whatbytes is a modern web application built with Django and TailwindCSS, designe
 - Python 3.9 or higher
 - Node.js 18.x
 - Docker (optional, for containerized deployment)
+- Django 4.x
+- SMTP server (for email functionality)
 
 ## Installation
 
 ### Local Development
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/whatbytes.git
+   git clone https://github.com/Samuthe/whatbytes.git
    cd whatbytes
    ```
 
@@ -50,6 +52,14 @@ Whatbytes is a modern web application built with Django and TailwindCSS, designe
 
 5. Set up environment variables:
    - Create a `.env` file in the root directory and configure it with the necessary secrets (e.g., email settings for `django-anymail`).
+     ```env
+     SECRET_KEY=<your-secret-key>
+     EMAIL_HOST=<your-email-host>
+     EMAIL_PORT=<your-email-port>
+     EMAIL_HOST_USER=<your-email>
+     EMAIL_HOST_PASSWORD=<your-email-password>
+     EMAIL_USE_TLS=True
+     ```
 
 6. Apply database migrations:
    ```bash
@@ -104,5 +114,4 @@ Ensure you configure the required secrets (e.g., Docker Hub credentials) in your
    gunicorn --bind 0.0.0.0:8000 whatbytes_project.wsgi:application
    ```
 
-## License
-Specify your license here (e.g., MIT, Apache 2.0, etc.).
+
