@@ -1,6 +1,6 @@
 # Registration/Login Project
 
-Whatbytes is a modern web application built with Django and TailwindCSS, designed for seamless scalability, styling, and deployment. It integrates advanced user authentication and a deployment pipeline using Docker and GitHub Actions.
+Registration/Login Project is a modern web application built with Django and TailwindCSS, designed for seamless scalability, styling, and deployment. It integrates advanced user authentication and a deployment pipeline using Docker and GitHub Actions.
 
 ## Features
 - **User Authentication**:
